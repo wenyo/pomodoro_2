@@ -1,3 +1,6 @@
+import './assets/css/reset.css';
+import './assets/css/variable.scss';
+
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
