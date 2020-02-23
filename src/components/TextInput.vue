@@ -34,8 +34,6 @@ export default {
 
 <style lang="scss">
 
-  @import '../assets/css/reset.css';
-  @import '../assets/css/variable.scss';
     .todoBlock{
         display: inline-block;
         width: 30vw;

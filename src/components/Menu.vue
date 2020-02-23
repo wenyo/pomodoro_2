@@ -1,5 +1,5 @@
 <template>
-    <nav ref='nav'>
+    <nav class='nav' ref='nav'>
       <router-link :class='vMenuClass[0]' to="/"><i class="far fa-clock"></i></router-link>
       <router-link :class='vMenuClass[1]' to="list"><i class="far fa-list-alt"></i></router-link>
       <router-link :class='vMenuClass[2]' to="chart"><i class="fas fa-chart-bar"></i></router-link>
@@ -42,10 +42,8 @@ export default({
 </script>
 
 <style lang="scss">
-//   @import '../assets/css/reset.css';
-  @import '../assets/css/variable.scss';
   
-    nav{
+    .nav{
         position: fixed;
         right: 0;
         display: flex;

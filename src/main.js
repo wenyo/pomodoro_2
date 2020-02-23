@@ -1,5 +1,4 @@
-import './assets/css/reset.css';
-import './assets/css/variable.scss';
+require('./assets/css/reset.css');
 
 import Vue from "vue";
 import App from "./App.vue";
