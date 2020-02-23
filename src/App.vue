@@ -15,6 +15,7 @@ export default {
 
 <style lang="scss">
 
+  @import './assets/css/reset.css';
 
   body{
     background-color: #11010a;

@@ -32,7 +32,6 @@ export default new Vuex.Store({
           };
           state.vToDoList.unshift(vToDoListTemp);
       }
-      console.log(state.vToDoList)
       state.storeInLoclstorage('todo', state.vToDoList); /// mutations call mutations???
     },
   },
