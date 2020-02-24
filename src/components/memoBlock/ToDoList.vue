@@ -49,14 +49,14 @@ export default {
         }
     },
     created() {
-        this.getFromLoclstorage();
+        // this.getFromLoclstorage();
         this.iMaxShowNum += this.iPage;
     },
     computed: {
      ...mapState(['vToDoList', 'iTodoNow'])
     },
     methods:{
-        ...mapMutations(['getFromLoclstorage', 'getNowTodo']),
+        ...mapMutations(['getNowTodo']),
         ...mapActions(['checkToDo']),
         getShowTodo(array){
             return array.slice(this.iPrePage, this.iMaxShowNum);
@@ -79,7 +79,6 @@ export default {
         background-color: $color-five;
         box-sizing: border-box;
         width: 100%;
-        min-height: 320px;
         padding: 10px;
         margin: 10px 0;
         border-radius: 20px;
@@ -108,6 +107,7 @@ export default {
     }
     .toDoList{
         margin-top: 30px;
+        min-height: 320px;
     }
 
     .listItem{

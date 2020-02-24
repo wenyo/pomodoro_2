@@ -15,8 +15,10 @@ export default new Vuex.Store({
   mutations: {
     // 從 Loclstorage 拿資料
     getFromLoclstorage(state){
-      const vTodoListTemp = JSON.parse(localStorage.getItem('todo'));
-      state.vToDoList = Array.isArray(vTodoListTemp) ? vTodoListTemp : [];
+      const vToDoListTemp = JSON.parse(localStorage.getItem('todo'));
+      const vTodoneListTemp = JSON.parse(localStorage.getItem('todone'));
+      state.vToDoList = Array.isArray(vToDoListTemp) ? vToDoListTemp : [];
+      state.vToDoneList = Array.isArray(vTodoneListTemp) ? vTodoneListTemp : [];
     },
     // 將資料存入 Loclstorage
     storeInLoclstorage(state, name){
@@ -46,18 +48,28 @@ export default new Vuex.Store({
       state.iTodoNow = state.vToDoList[idx]['sn'];
     },
     // 勾選已完成的 todo 項目
-    addToDo2Todone(state, idx){
+    addToDo2ToDone(state, idx){
       let vToDo = state.vToDoList[idx];
       if(state.iTodoNow == vToDo['sn']){
         state.iTodoNow = 0;
       }
-      state.vToDoneList.push(vToDo);
+      state.vToDoneList.unshift(vToDo);
       state.vToDoList.splice( idx, 1 );
+    },
+    removeToDone2ToDo(state, idx){
+      let vToDone = state.vToDoneList[idx];
+      state.vToDoList.unshift(vToDone);
+      state.vToDoneList.splice( idx, 1 );
     }
   },
   actions: {
     checkToDo({commit}, idx){
-      commit('addToDo2Todone', idx);
+      commit('addToDo2ToDone', idx);
+      commit('storeInLoclstorage', 'todo');
+      commit('storeInLoclstorage', 'todone');
+    },
+    checkToDone({commit}, idx){
+      commit('removeToDone2ToDo', idx);
       commit('storeInLoclstorage', 'todo');
       commit('storeInLoclstorage', 'todone');
     }
