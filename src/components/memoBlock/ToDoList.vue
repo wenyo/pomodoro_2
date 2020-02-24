@@ -81,7 +81,7 @@ export default {
         width: 100%;
         padding: 10px;
         margin: 10px 0;
-        border-radius: 20px;
+        border-radius: 8px;
         box-shadow: -3px 3px 10px $color-six;
         position: relative;
         ul{

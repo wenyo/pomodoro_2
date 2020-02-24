@@ -19,7 +19,7 @@ export default {
 <style lang="scss">
     .todoBlock{
         display: inline-block;
-        width: 30vw;
+        width: 25vw;
         margin: 2.5vh 2vw;
     }
 
