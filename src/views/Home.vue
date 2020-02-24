@@ -1,14 +1,14 @@
 <template>
   <div class="home">
-    <ToDo></ToDo>
+    <Memo></Memo>
   </div>
 </template>
 
 <script>
-import ToDo from "../components/ToDo";
+import Memo from "../components/Memo";
 
 export default {
-  components: { ToDo },
+  components: { Memo },
   data(){
     return{
       type: 0

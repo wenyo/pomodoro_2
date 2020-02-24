@@ -2,7 +2,7 @@
     <div class="inputText">
         <input id="textInput" type="text" placeholder="What do you want to do today?" 
                 v-on:keyup='submitBindEnter' v-model = "textInput">
-        <i class="fas fa-plus submit" @click='submit'></i>
+        <i class="fas fa-plus submit" :class='sSubmit' @click='submit(textInput)'></i>
     </div>
 </template>
 
@@ -12,7 +12,8 @@ import { mapState, mapMutations } from 'vuex';
 export default {
     data(){
         return{
-            textInput: ''
+            textInput: '',
+            sSubmit: ''
         }
     },
     computed: {
@@ -22,13 +23,22 @@ export default {
         ...mapMutations(['storeInLoclstorage', 'submit']),
         // 送出輸入to do item綁定Enter按鍵
         submitBindEnter: function(e){
-            const textInput = document.querySelector('#textInput');
-            if(e.keyCode == 13 && textInput.value){
-                this.submit();
+            if(e.keyCode == 13 && this.textInput !== ''){
+                this.submit(this.textInput);
+                this.storeInLoclstorage('todo');
+                this.textInput = '';
             }
         },
-
     },
+    watch:{
+        textInput(){
+            if(this.textInput){
+                this.sSubmit = 'active';
+            }else{
+                this.sSubmit = '';
+            }
+        }
+    }
 }
 </script>
 
@@ -61,11 +71,14 @@ export default {
     }
 
     .submit{
-        color: $color-master;
+        color: $color-four;
         position: absolute;
         right: 10px;
         top: 14px;
-        cursor: pointer;
         transition: all .5s;
+        &.active{
+            color: $color-master;
+            @include pointer;
+        }
     }
 </style>

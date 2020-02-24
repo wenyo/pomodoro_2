@@ -7,9 +7,16 @@
 
 <script>
 import Menu from './components/Menu';
+import { mapMutations } from 'vuex';
 
 export default {
   components: { Menu },
+  created(){
+    this.getFromLoclstorage();
+  },
+  methods:{
+    ...mapMutations(['getFromLoclstorage'])
+  }
 }
 </script>
 
@@ -18,6 +25,7 @@ export default {
   @import './assets/css/reset.css';
 
   body{
-    background-color: #11010a;
+    background-color: $color-sev;
+    color: $color-thir;
   }
 </style>
