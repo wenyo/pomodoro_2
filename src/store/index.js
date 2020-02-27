@@ -10,7 +10,8 @@ export default new Vuex.Store({
     vToDoList: [],
     vToDoneList: [],
     iTodoNow: 0,
-    date: new Date().getFullYear() + '/' + new Date().getMonth() + '/' +new Date().getDate()
+    date: new Date().getFullYear() + '/' + new Date().getMonth() + '/' +new Date().getDate(),
+    bPlayTimer: false, // false = 不倒數; true = 倒數;
   },
   mutations: {
     // 從 Loclstorage 拿資料
@@ -38,7 +39,8 @@ export default new Vuex.Store({
               'content': textInput,
               'tomatoNum': 0,
               'creatDate': state.date,
-              'finishDate': '00/00'
+              'finishDate': '00/00',
+              'bWork': 0
           };
           state.vToDoList.unshift(vToDoListTemp);
       }
@@ -56,20 +58,44 @@ export default new Vuex.Store({
       state.vToDoneList.unshift(vToDo);
       state.vToDoList.splice( idx, 1 );
     },
+    // 取消勾選已完成的 todone 項目
     removeToDone2ToDo(state, idx){
       let vToDone = state.vToDoneList[idx];
       state.vToDoList.unshift(vToDone);
       state.vToDoneList.splice( idx, 1 );
+    },
+    // 修改 vToDoList
+    reviceToDo(state, vTodoNow){
+      for (const idx in state.vToDoList) {
+        if (state.vToDoList[idx].sn == state.iTodoNow) {
+          state.vToDoList[idx] = vTodoNow;
+          break;
+        }
+      }
+    },
+    // 倒數與否
+    checkCount(state){
+      state.bPlayTimer = !state.bPlayTimer;
     }
   },
   actions: {
-    checkToDo({commit}, idx){
+    // 將 todo 給 todone
+    checkToDo({commit, dispatch}, idx){
       commit('addToDo2ToDone', idx);
-      commit('storeInLoclstorage', 'todo');
-      commit('storeInLoclstorage', 'todone');
+      dispatch('inserData');
     },
-    checkToDone({commit}, idx){
+    // 將 todone 給 todo
+    checkToDone({commit, dispatch}, idx){
       commit('removeToDone2ToDo', idx);
+      dispatch('inserData');
+    },
+    // 更新 vToDoList
+    updateToDo({commit,dispatch}, vTodoNow){
+      commit('reviceToDo', vTodoNow);
+      dispatch('inserData');
+    },
+    // 存資料到 localStorage
+    inserData({commit}){
       commit('storeInLoclstorage', 'todo');
       commit('storeInLoclstorage', 'todone');
     }

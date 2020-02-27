@@ -19,7 +19,7 @@
             </li>
         </ul>
         
-        <div class="seeMore" v-if='vToDoneList.length > 2'><a href="#memoList">more data</a></div>
+        <a class="seeMore" v-if='vToDoneList.length > 2'>more data</a>
     </div>
 </template>
 
@@ -60,5 +60,26 @@ export default {
         position: absolute;
         bottom: 0;
         right: -4px;
+    }
+    .toDoneList{
+        padding: 10px 10px 30px 10px;
+        min-height: 200px;
+    }
+    .toDoneitem {
+        margin-right: 30px;
+        width: calc(100% - 70px);
+    }
+    .seeMore{
+        position: absolute;
+        right: 20px;
+        bottom: 5px;
+        text-decoration: underline;
+        font-size: $fontsize-xs;
+        color: $color-four;
+        transition: .5s;
+        @include pointer;
+        &:hover{
+            color: $color-thir;
+        }
     }
 </style>

@@ -138,26 +138,10 @@ export default {
             text-shadow: 0 0 3px $color-four;
         }
     }
-    .toDoneitem{
-        margin-right: 30px;
-    }
     .wordActive{
         background-size: 100% 90%;
         background-repeat: no-repeat;
         background-image: linear-gradient(to top, $color-master 40%, $color-five 40%);
-    }
-
-    .seeMore{
-        font-size: $fontsize-xs;
-        text-align: right;
-        padding: 0 10px 10px 10px;
-        a{
-            color: $color-four;
-            transition: .5s;
-            &:hover{
-                color: $color-thir;
-            }
-        }
     }
 
     // change Page

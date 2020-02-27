@@ -48,6 +48,7 @@ export default({
         right: 0;
         display: flex;
         flex-direction: column;
+        z-index: 10;
         a{
             color: #3f3f3f;
             text-decoration: none;

@@ -44,12 +44,6 @@ export default {
 
 <style lang="scss">
 
-    .todoBlock{
-        display: inline-block;
-        width: 30vw;
-        margin: 4vh 2vw;
-    }
-
     .inputText{
         position: relative;
         width: 100%;

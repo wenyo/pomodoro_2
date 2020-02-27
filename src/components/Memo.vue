@@ -20,7 +20,6 @@ export default {
     .todoBlock{
         display: inline-block;
         width: 25vw;
-        margin: 2.5vh 2vw;
     }
 
     //TO DO or TO DONE
