@@ -22,7 +22,6 @@ export default {
   },
   created(){
       this.checkPath();
-      console.log(this.bPlayTimer)
   },
   computed: {
     ...mapState(['bPlayTimer']),
@@ -56,23 +55,24 @@ export default {
   .home{
     display: flex;
     padding: 3vh 2.5vw;
-    transition: all .3s;
+    justify-content: flex-start;
   }
   .center{
     justify-content: center;
   }
+
   .hide{
-    animation-name: hideMenu;
+    animation-name: hideMemo;
     animation-duration: 1s;
     position: absolute;
     animation-fill-mode:forwards;
   }
-  @keyframes hideMenu{
+  @keyframes hideMemo{
     from{
         left:0;
     }
     to{
       left: -25vw;
     }
-}
+  }
 </style>
