@@ -56,7 +56,11 @@ export default {
         }
     },
     created() {
-        this.resetStatus();
+        if(this.iTodoNow == 0 ){
+            this.resetStatus();
+        }else{
+            this.checkNowTodo();
+        }
     },
     computed:{
       ...mapState(['iTodoNow', 'vToDoList', 'bPlayTimer'])
@@ -66,22 +70,16 @@ export default {
             if(this.iTodoNow == 0){
                 this.resetStatus();
             }else{
-                this.bReset = false;
-                this.vToDo = this.vToDoList.filter( vtodo =>{
-                    return vtodo['sn'] == this.iTodoNow;
-                })[0];
-                this.sReadyitem = this.vToDo['content'];
-                this.sCountTime = this.vTimer[this.type][this.bWork];
-                this.bWork = this.vToDo['bWork'];
+                this.checkNowTodo();
             }
         },
         type(){
             if(this.iTodoNow !== 0){
-                this.sCountTime = this.vTimer[this.type][this.bWork];
+                this.checkSCountTime();
             }
         },
         bWork(){
-            this.sCountTime = this.vTimer[this.type][this.bWork];
+            this.checkSCountTime();
         }
     },
     methods:{
@@ -145,6 +143,20 @@ export default {
             const sNewClass = (iClass !== -1) ? this.vClockClassName[iClass] : '';
             this.$refs.innerClock.className = 'innerClock ' + sNewClass;
         },
+        // 倒數數字
+        checkSCountTime(){
+            this.sCountTime = this.vTimer[this.type][this.bWork];
+        },
+        // 延續當前代辦事項
+        checkNowTodo(){
+            this.bReset = false;
+            this.vToDo = this.vToDoList.filter( vtodo =>{
+                return vtodo['sn'] == this.iTodoNow;
+            })[0];
+            this.sReadyitem = this.vToDo['content'];
+            this.bWork = this.vToDo['bWork'];
+            this.checkSCountTime();
+        }
     }
 }
 </script>

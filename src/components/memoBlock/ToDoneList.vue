@@ -19,7 +19,15 @@
             </li>
         </ul>
         
-        <a class="seeMore" v-if='vToDoneList.length > 2'>more data</a>
+        <a class="seeMore" v-if='vToDoneList.length > vPage[0] && this.iPage == this.vPage[0]'>more data</a>
+        <div class="changePage" v-if='vToDoneList.length > vPage[1] && this.iPage == this.vPage[1]'>
+            <i class="fas fa-angle-left" 
+                v-if='iPrePage > 0'
+                @click='getPreItem'></i>
+            <i class="fas fa-angle-right" 
+                v-if='vToDoneList.length > iMaxShowNum'
+                @click='getNextItem'></i>
+        </div>
     </div>
 </template>
 
@@ -29,18 +37,47 @@ import { mapState, mapActions } from 'vuex';
 export default {
     data(){
         return{
-            iMaxShowNum: 2,
+            iMaxShowNum: 0,
             iPrePage: 0,
+            iPage: 0,
+            vPage: [2, 6]
         }
     },
+    created(){
+        this.checkIPage();
+    },
     computed: {
-        ...mapState(['vToDoneList'])
+        ...mapState(['vToDoneList']),
+        path(){
+            return this.$route.path;
+        },
     },
     methods:{
         ...mapActions(['checkToDone']),
         getShowTodo(array){
             return array.slice(this.iPrePage, this.iMaxShowNum);
         },
+        getPreItem(){
+            this.iPrePage -= this.iPage;
+            this.iMaxShowNum -= this.iPage;
+        },
+        getNextItem(){
+            this.iPrePage += this.iPage;
+            this.iMaxShowNum += this.iPage;
+        },
+        checkIPage(){
+            if(this.path == '/list'){
+                this.iPage = this.vPage[1];
+            }else{
+                this.iPage = this.vPage[0];
+            }
+            this.iMaxShowNum = this.iPage;
+        }
+    },
+    watch:{
+        path(){
+            this.checkIPage();
+        }
     }
 }
 </script>

@@ -29,6 +29,16 @@ export default new Vuex.Store({
         localStorage.setItem(name, JSON.stringify(state.vToDoneList));
       }
     },
+    // 重設狀態
+    clearInLoclstorage(state, name){
+      if(name == 'todo'){
+        state.vToDoList = [];
+        localStorage.setItem(name, JSON.stringify(state.vToDoList));
+      }else if(name == 'todone'){
+        state.vToDoneList = [];
+        localStorage.setItem(name, JSON.stringify(state.vToDoneList));
+      }
+    },
     // 送出 todo 資料
     submit(state, textInput){
       if(textInput !== ""){
@@ -76,6 +86,12 @@ export default new Vuex.Store({
     // 倒數與否
     checkCount(state){
       state.bPlayTimer = !state.bPlayTimer;
+    },
+    // 刪除待辦
+    delvTodoItem(state, iTodoSn){
+      state.vToDoList = state.vToDoList.filter( vTodo =>{
+        return vTodo.sn !== iTodoSn;
+      })
     }
   },
   actions: {
@@ -98,6 +114,11 @@ export default new Vuex.Store({
     inserData({commit}){
       commit('storeInLoclstorage', 'todo');
       commit('storeInLoclstorage', 'todone');
+    },
+    // 刪除指定項目 vToDo
+    delvTodo({commit}, iTodoSn){
+      commit('delvTodoItem', iTodoSn);
+      commit('storeInLoclstorage', 'todo');
     }
   },
   modules: {}

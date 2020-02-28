@@ -23,6 +23,9 @@
                     <i  class="fas fa-play-circle" v-if='iTodoNow == toDo.sn'></i>
                     <i  class="far fa-play-circle" v-else></i>
                 </span>
+                <span class="delBtn" v-if="path == '/list'" @click='delvTodo(toDo.sn)'>
+                    <i class="far fa-trash-alt"></i>
+                </span>
             </li>
         </ul>
         <div class="changePage">
@@ -45,19 +48,23 @@ export default {
             textInput: '',
             iMaxShowNum: 0,
             iPrePage: 0,
-            iPage: 4
+            iPage: 4,
+            vPage: [4, 6]
         }
     },
     created() {
         // this.getFromLoclstorage();
-        this.iMaxShowNum += this.iPage;
+        this.checkIPage();
     },
     computed: {
-     ...mapState(['vToDoList', 'iTodoNow'])
+        ...mapState(['vToDoList', 'iTodoNow']),
+        path(){
+            return this.$route.path;
+        },
     },
     methods:{
         ...mapMutations(['getNowTodo']),
-        ...mapActions(['checkToDo']),
+        ...mapActions(['checkToDo', 'delvTodo']),
         getShowTodo(array){
             return array.slice(this.iPrePage, this.iMaxShowNum);
         },
@@ -68,8 +75,21 @@ export default {
         getNextItem(){
             this.iPrePage += this.iPage;
             this.iMaxShowNum += this.iPage;
-        }
+        },
+        checkIPage(){
+            if(this.path == '/list'){
+                this.iPage = this.vPage[1];
+            }else{
+                this.iPage = this.vPage[0];
+            }
+            this.iMaxShowNum = this.iPage;
+        },
     },
+    watch:{
+        path(){
+            this.checkIPage();
+        }
+    }
 }
 </script>
 
@@ -155,6 +175,14 @@ export default {
             &:hover{
                 color: $color-master;
             }
+        }
+    }
+    .delBtn{
+        color: $color-four;
+        transition: .5s;
+        @include pointer;
+        &:hover{
+            color: $color-thir;
         }
     }
 </style>
