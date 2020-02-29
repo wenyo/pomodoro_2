@@ -1,15 +1,15 @@
 <template>
     <div class="countDownBlock">
-        <div class="selToDoList">
+        <div class="selToDoList" :class='changeDark(this.vToDo.bWork)'>
             <span class="checkBox">
-                <div class="checkInput"></div>
-                <i class="fas fa-check checkIcon"></i>
+                <div class="checkInput" :class='changeDark(this.vToDo.bWork)'></div>
+                <i class="fas fa-check checkIcon" :class='changeDark(this.vToDo.bWork)'></i>
             </span>
 
             <span class="listItem">
                 <span :class=" bReset ? 'grayColor' : '' " v-cloak>{{sReadyitem}}</span>
-                <div class="line"></div>
-                <div class="tomato" v-if='iTodoNow > -1'>
+                <div class="line" :class='changeDark(this.vToDo.bWork)'></div>
+                <div class="tomato" :class='changeDark(this.vToDo.bWork)' v-if='iTodoNow > -1'>
                     <!-- 記錄當前待辦事項蕃茄數量 -->
                     <i class="fas fa-circle" v-for = 'i in vToDo.tomatoNum' :key='i'></i>
                     <i class="far fa-circle"></i>
@@ -18,16 +18,15 @@
         </div>
 
         <div class="countDown">
-            <div class="outerClock">
-                <div class="innerClock" ref='innerClock'>
+            <div class="outerClock" :class='changeDark(vToDo.bWork)'>
+                <div class="innerClock" :class='changeDark(vToDo.bWork)' ref='innerClock'>
                     <div class="playbtn">
                         <i class="fas fa-play play" v-if='!bPlayTimer' @click = "countDownStart"></i>
                         <i class="fas fa-pause pause" v-else @click = "countDownpause"></i>
                     </div>
                 </div>
             </div>
-
-            <div class="time" v-cloak>{{sCountTime}}</div>                            
+            <div class="time" :class='changeDark(vToDo.bWork)' v-cloak>{{sCountTime}}</div>                            
         </div>
 
     </div>
@@ -51,7 +50,7 @@ export default {
             sCountTime: '',
             vToDo: [],
             vClockClassName: ['tenMins','twentyMins','twenty3Mins'],
-            bWork: 0, // 工作狀態 = 0; 休息狀態 = 1,
+            // bWork: 0, // 工作狀態 = 0; 休息狀態 = 1,
             timer: ''
         }
     },
@@ -78,9 +77,9 @@ export default {
                 this.checkSCountTime();
             }
         },
-        bWork(){
-            this.checkSCountTime();
-        }
+        // bWork(){
+        //     this.checkSCountTime();
+        // }
     },
     methods:{
         ...mapActions(['updateToDo']),
@@ -108,7 +107,7 @@ export default {
                     this.sCountTime = sMinute + ':' + sSecond;
 
                     // 切換內圈樣式
-                    let iClass = this.vChangeClassTimer[this.type][this.bWork].indexOf(this.sCountTime);
+                    let iClass = this.vChangeClassTimer[this.type][this.vToDo['bWork']].indexOf(this.sCountTime);
                     if(iClass !== -1){
                         this.addInnerClockClass(iClass);
                     }
@@ -130,22 +129,25 @@ export default {
         // 倒數結束 換到下一個階段
         changeWork(){
             clearInterval(this.timer);
-            if(this.bWork == 0){
+            if(this.vToDo['bWork'] == 0){
                 this.vToDo.tomatoNum += 1
-                this.updateToDo(this.vToDo);
             }
-            this.bWork = this.bWork == 0 ? this.bWork + 1 : this.bWork - 1;
+            this.vToDo['updateDate'] = Date.now(),
+            this.vToDo['bWork'] = this.vToDo['bWork'] == 0 ? this.vToDo['bWork'] + 1 : this.vToDo['bWork'] - 1;
+            this.updateToDo(this.vToDo);
             this.countDownpause();
             this.addInnerClockClass(-1);
+            this.checkSCountTime();
         },
         // Pomodoro 內圈樣式轉換
         addInnerClockClass(iClass){
             const sNewClass = (iClass !== -1) ? this.vClockClassName[iClass] : '';
-            this.$refs.innerClock.className = 'innerClock ' + sNewClass;
+            const sDark = this.changeDark(this.vToDo.bWork);
+            this.$refs.innerClock.className = sDark + ' innerClock ' + sNewClass;
         },
         // 倒數數字
         checkSCountTime(){
-            this.sCountTime = this.vTimer[this.type][this.bWork];
+            this.sCountTime = this.vTimer[this.type][this.vToDo['bWork']];
         },
         // 延續當前代辦事項
         checkNowTodo(){
@@ -154,176 +156,53 @@ export default {
                 return vtodo['sn'] == this.iTodoNow;
             })[0];
             this.sReadyitem = this.vToDo['content'];
-            this.bWork = this.vToDo['bWork'];
             this.checkSCountTime();
+        },
+        // 加上暗黑模式的class
+        changeDark(bWork){
+            return bWork==1 ? 'dark' : '';
         }
     }
 }
 </script>
 
 <style lang="scss">
-    #homePage{
-    position: relative;
-    height: 700px;
-}
-.memoList{
-    position: absolute;
-    left: 0;
-    display: inline-flex;
-    width: 30%;
-    flex-direction: column;
-    transition: 2s;
-}
-.memoListNoShow{
-    left: -40%;
-    @include over-hidden;
-}
-.checkBox{
-    position: relative;
-    @include pointer;
-}
-.checkInput{
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-.checkIcon{
-    color: $color-master;
-    position: absolute;
-    bottom: 0;
-    right: -4px;
-}
-
-.line{
-    width: 60px;
-    height: 3px;
-    background-color: $color-master;
-}
-.grayColor{
-    color: $color-five;
-}
-
-// listDetail
-    // .inputText
-    .inputText{
+    .checkBox{
         position: relative;
-        width: 100%;
-        height: 35px;
-        input{
-            position: absolute;
-            font-size: $fontsize-xs;
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            box-shadow: 0 0 15px $color-sev inset;
-
-            color: $color-master;
-            background-color: $color-six;
-
-            border: 2px solid $color-six;
-            border-radius: 3px;
-        }
+        @include pointer;
     }
-
-    .submit{
+    .checkInput{
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    .checkIcon{
         color: $color-master;
         position: absolute;
-        right: 10px;
-        top: 14px;
-        @include pointer;
-        transition: all .5s;
-    }
-
-    .submit:hover{
-        text-shadow: 0 0 5px $color-thir;
-    }
-
-    // listDetail - Basic
-    .memoBlock{
-        background-color: $color-five;
-        box-sizing: border-box;
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 20px;
-        box-shadow: -3px 3px 10px $color-six;
-        position: relative;
-        ul{
-            margin: 20px 0;
-            padding: 0 10px;
-            li{
-                display: flex;
-                justify-content: space-between;
-                align-items:center;
-                margin: 25px 0;
-            }
-        }
-        .checkBox{
-            height: 25px;
-            width: 25px;
-        }
-        .checkInput{
-            font-size: $fontsize-m;
-        }
-        .checkIcon{
-            font-size: $fontsize-m;
+        bottom: 0;
+        right: -4px;
+        &.dark{
+            color: $color-sec;
         }
     }
-    .toDoList{
-        margin-top: 30px;
-    }
 
-    //TO DO or TO DONE
-    .listTitle{
-        color: $color-master;
-        background-color: $color-sev;
-        padding: 15px 10px;
-        border-radius: 10px;
-    }
-
-    .listItem{
-        width: calc(100% - 50px*2);
-        margin-top: 5px;
-        position: relative;
-        border-bottom: 2px solid $color-master;
-    }
-
-    .tomato{
-        position: absolute;
-        max-width: 100%;
-        color: $color-master;
-        font-size: $fontsize-xxs;
-        display: flex;
-        flex-wrap: wrap;
-        top: 10px;
-    }
-    .tomato i{
-        margin-right: 3px;
-        margin-top: 3px;
-    }
-
-    .playBtn{
-        color: $color-master;
-        font-size: $fontsize-m;
-        @include pointer;
-        .btnReady{
-            background-color: $color-sev;
-            border-radius: 28px;
+    .line{
+        width: 60px;
+        height: 3px;
+        background-color: $color-master;
+        &.dark{
+            background-color: $color-sec;
         }
     }
-    .toDoneitem{
-        margin-right: 30px;
-    }
-    .wordActive{
-        background-size: 100% 90%;
-        background-repeat: no-repeat;
-        background-image: linear-gradient(to top, $color-master 40%, $color-five 40%);
+    .grayColor{
+        color: $color-five;
     }
 
 // 倒數時鐘部分
 .countDownBlock{
     width: 65%;
     transition: 2s;
+    margin-left: 5vw;
 }
 .moveToCenter{
     right: 10%
@@ -334,13 +213,17 @@ export default {
         align-items: top;
         font-size: $fontsize-xl;
         color: $color-master;
+        &.dark{
+            color: $color-sec;
+        }
         .listItem{
             position: relative;
             margin-left: 20px;
             border: none;
             .tomato{
+                max-width: 100%;
                 left: 0;
-                top: 35px;
+                top: 50px;
             }
         }
         .checkBox{
@@ -352,6 +235,9 @@ export default {
             height: 40px;
             border-radius: 60px;
             border: 2px solid $color-master;
+            &.dark{
+                border: 2px solid $color-sec;
+            }
         }
         .checkIcon{
             top: 0;
@@ -394,6 +280,10 @@ export default {
 
         position: absolute;
         z-index: 3;
+        &.dark{
+            border: 2px solid $color-sec;
+            box-shadow: 0 0 40px 10px $color-sec inset;
+        }
     }
     .innerClock{
         width: 30%;
@@ -412,6 +302,12 @@ export default {
         animation-duration: 3s;
         animation-iteration-count: infinite;
         animation-direction: alternate;
+        &.dark{
+            background-color: $color-sec;
+            border-radius: 100%;
+            border: 2px solid $color-sec;
+            box-shadow: 0 0 30px 40px $color-sec;
+        }
     }
     .tenMins{
         animation-name: innerCircle-10mins;
@@ -473,18 +369,10 @@ export default {
         bottom: -4px;
         right: -50px;
         z-index: 0;
-    }
-    // change Page
-    .changePage{
-        position: absolute;
-        bottom: 3px;
-        right: 20px;
-        i{
-            @include pointer;
-            padding: 5px 3px;
-            &:hover{
-                color: $color-master;
-            }
+        &.dark{
+            color: $color-sec;
+            border-bottom: 2px solid $color-sec;
         }
     }
+
 </style>

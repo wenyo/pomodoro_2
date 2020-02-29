@@ -10,7 +10,7 @@ export default new Vuex.Store({
     vToDoList: [],
     vToDoneList: [],
     iTodoNow: 0,
-    date: new Date().getFullYear() + '/' + new Date().getMonth() + '/' +new Date().getDate(),
+    date: new Date().getFullYear() + '/' + (new Date().getMonth()+1) + '/' + new Date().getDate(),
     bPlayTimer: false, // false = 不倒數; true = 倒數;
   },
   mutations: {
@@ -46,9 +46,11 @@ export default new Vuex.Store({
 
           vToDoListTemp = {
               'sn': Date.now(),
+              'updateDate': Date.now(),
               'content': textInput,
               'tomatoNum': 0,
               'creatDate': state.date,
+              // 'creatDate': '2020/02/28',
               'finishDate': '00/00',
               'bWork': 0
           };
@@ -92,7 +94,7 @@ export default new Vuex.Store({
       state.vToDoList = state.vToDoList.filter( vTodo =>{
         return vTodo.sn !== iTodoSn;
       })
-    }
+    },
   },
   actions: {
     // 將 todo 給 todone
@@ -119,7 +121,7 @@ export default new Vuex.Store({
     delvTodo({commit}, iTodoSn){
       commit('delvTodoItem', iTodoSn);
       commit('storeInLoclstorage', 'todo');
-    }
+    },
   },
   modules: {}
 });

@@ -49,12 +49,13 @@ export default {
             iMaxShowNum: 0,
             iPrePage: 0,
             iPage: 4,
-            vPage: [4, 6]
+            vPage: [4, 6],
+            bWork: -1
         }
     },
     created() {
-        // this.getFromLoclstorage();
         this.checkIPage();
+        // this.getbWork();
     },
     computed: {
         ...mapState(['vToDoList', 'iTodoNow']),
@@ -84,16 +85,40 @@ export default {
             }
             this.iMaxShowNum = this.iPage;
         },
+        // // 加上暗黑模式的class
+        // changeDark(){
+        //     if(this.bWork==1) return ' dark';
+        // },
+        // //
+        // getbWork(){
+        //     if(this.iTodoNow == 0) return;
+        //     this.bWork = this.vToDoList.filter( vTodo => {
+        //         return vTodo.sn == this.iTodoNow;
+        //     })[0]['bWork'];
+        // }
     },
     watch:{
         path(){
             this.checkIPage();
-        }
+        },
+        // iTodoNow(){
+        //     this.getbWork();
+        // }
     }
 }
 </script>
 
 <style lang="scss">
+    //TO DO or TO DONE
+    .listTitle{
+        color: $color-master;
+        background-color: $color-sev;
+        padding: 15px 10px;
+        border-radius: 10px;
+        &.dark{
+            color: $color-sec;
+        }
+    }
 
     .memoBlock{
         background-color: $color-five;
@@ -135,15 +160,25 @@ export default {
         margin-top: 5px;
         position: relative;
         border-bottom: 2px solid $color-master;
+        &.dark{
+            border-bottom: 2px solid $color-sec;
+        }
     }
 
     .tomato{
-        position: absolute;
+        max-width: 100%;
         color: $color-master;
         font-size: $fontsize-xxs;
-        margin-top: 10px;
-        bottom: -20px;
+        position: absolute;
+        top: 25px;
         display: flex;
+        flex-wrap: wrap;
+        &.dark{
+            color: $color-sec;
+        }
+        i{
+            margin: 1px;
+        }
     }
     .tomato i{
         margin-right: 3px;
@@ -153,15 +188,20 @@ export default {
         color: $color-master;
         font-size: $fontsize-m;
         transition: all .3s;
-        // @include pointer;
         &:hover{
             text-shadow: 0 0 3px $color-four;
+        }
+        &.dark{
+            color: $color-sec;
         }
     }
     .wordActive{
         background-size: 100% 90%;
         background-repeat: no-repeat;
         background-image: linear-gradient(to top, $color-master 40%, $color-five 40%);
+        &.dark{
+            background-image: linear-gradient(to top, $color-sec 40%, $color-five 40%);
+        }
     }
 
     // change Page
@@ -174,6 +214,9 @@ export default {
             padding: 5px 3px;
             &:hover{
                 color: $color-master;
+            }
+            &.dark:hover{
+                color: $color-sec;
             }
         }
     }

@@ -21,12 +21,4 @@ export default {
         display: inline-block;
         width: 25vw;
     }
-
-    //TO DO or TO DONE
-    .listTitle{
-        color: $color-master;
-        background-color: $color-sev;
-        padding: 15px 10px;
-        border-radius: 10px;
-    }
 </style>

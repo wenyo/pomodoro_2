@@ -3,10 +3,18 @@
         <div class='clearData' @click='showAlert'>Clear Data</div>
         <div class="confirmAlert" v-if = 'bConfirmAlert'>
             <div class="close" @click='showAlert'><i class="fas fa-times"></i></div>
-            <p>即將清除資料，要選擇哪個呢？</p>
-            <div class="confirm" @click='showAlert'>
-                <span @click='clearInLoclstorage("todo")'>TO DO</span>
-                <span @click='clearInLoclstorage("todone")'>TO DONE</span>
+            <div class="content" v-if='bDel'>
+                <p>即將清除資料，要選擇哪個呢？</p>
+                <div class="confirm" @click='showAlert'>
+                    <span @click='clearInLoclstorage("todo")'>TO DO</span>
+                    <span @click='clearInLoclstorage("todone")'>TO DONE</span>
+                </div>                
+            </div>
+            <div class="content" v-else>
+                <p>尚無資料可以清除呦！</p>
+                <div class="confirm" @click='showAlert'>
+                    <span>好ㄅ</span>
+                </div>                
             </div>
         </div>
         <div class="back" v-if='bConfirmAlert' @click='showAlert'></div>
@@ -14,11 +22,19 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 export default {
     data(){
         return{
-            bConfirmAlert: false
+            bConfirmAlert: false,
+            // bDel: false
+        }
+    },
+    computed:{
+        ...mapState(['vToDoList', 'vToDoneList']),
+        bDel(){
+            const iCount = this.vToDoList.length + this.vToDoneList.length;
+            return iCount > 0 ? true : false;
         }
     },
     methods:{
