@@ -43,7 +43,7 @@
       <div class="infoTitle">
         <p>7DAYS CHART</p>
         </div>
-      <charts class='chartDetail' :chartType='chartType'></charts>
+      <charts class='chartDetail'></charts>
     </div>
   </div>
 </template>
@@ -58,26 +58,29 @@ export default {
     return{
       vWeekRange: [],
       vTodayRange: [],
-      vDate: [],
-      chartType: 'item'
+      vDate: []
     }
   },
   computed:{
     ...mapState(['vToDoneList', 'vToDoList', 'date']),
     todayTomato(){
+      console.log('todayTomato')
       let iTomatos = this.tomatoReduce(this.vToDoneList, this.vTodayRange) + this.tomatoReduce(this.vToDoList, this.vTodayRange);
       return iTomatos ? iTomatos : 0;
     },
     weekTomato(){
+      console.log('weekTomato')
       let iTomatos = this.tomatoReduce(this.vToDoneList, this.vWeekRange) + this.tomatoReduce(this.vToDoList, this.vWeekRange);
       return iTomatos ? iTomatos : 0;
     },
     todayItem(){
-      let items = this.itemsReduce(this.vToDoneList, this.vTodayRange);
+      console.log('todayItem')
+      let items = this.itemsReduce(this.vToDoneList, this.vTodayRange) + this.itemsReduce(this.vToDoList, this.vTodayRange);
       return items ? items : 0;
     },
     weekItem(){
-      let items = this.itemsReduce(this.vToDoneList, this.vWeekRange);
+      console.log('weekItem')
+      let items = this.itemsReduce(this.vToDoneList, this.vWeekRange) + this.itemsReduce(this.vToDoList, this.vWeekRange);
       return items ? items : 0;
     },
   },
@@ -106,8 +109,10 @@ export default {
     // 項目累加器
     itemsReduce(array, vDate){
       return array.reduce( (acc, cur) => {
-        if(cur.updateDate >= vDate[0] && cur.updateDate < vDate[1]){
-          return  acc+1
+        console.log(cur.content,cur.tomatoNum)
+        if(cur.updateDate >= vDate[0] && cur.updateDate < vDate[1] && cur.tomatoNum > 0){
+          console.log('!')
+          return  acc + 1
         }
       }, 0)
     },
@@ -123,9 +128,6 @@ export default {
       const iMaxDate = this.addDays(1).valueOf();
       this.vTodayRange = [iMinDate, iMaxDate];
     },
-    checkChartType(){
-      return this.chartType;
-    }
   }
 }
 </script>

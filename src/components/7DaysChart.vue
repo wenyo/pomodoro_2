@@ -4,27 +4,34 @@ import { mapState } from 'vuex';
 
 export default {
     extends: Bar,
-    props: ['chart-type'],
     created(){
-        this.checkDataType();
         this.getVDate();
-        this.calcCharts(this.vToDoList, false);
+        this.calcCharts(this.vToDoList);
         this.calcCharts(this.vToDoneList);
     },
     mounted () {
         this.renderChart({
+        type: 'bar',
         labels: this.vDateText,
         datasets: [
             {
-                label: this.vType[this.iType],
+                type: 'line',
+                label: this.vType[1],
+                data: this.vData[1],
                 backgroundColor: '#e20067',
-                data: this.vData[this.iType],
+            },
+            {
+                type: 'bar',
+                label: this.vType[0],
+                data: this.vData[0],
+                backgroundColor: '#056ec4',
             }
         ],
         }, {responsive: true, maintainAspectRatio: false});
     },
     data(){
         return{
+            vChartData: {},
             vDateText: [],
             vDateTimestamp: [],
             iDays: 7,
@@ -57,15 +64,15 @@ export default {
             const sDay = new Date(day).getMonth()+1 + '/' + new Date(day).getDate();
             return [day, sDay];
         },
-        // 計算番茄數量
-        calcCharts(array, btodone = true){
+        // 計算番茄與項目數量
+        calcCharts(array){
             if(array.length < 1) return;
             for (const vInfo of array) {
                 for (let key = 0; key < this.vDateTimestamp.length; key++) {
                     if(this.vDateTimestamp[key] <= vInfo.updateDate &&
                         this.vDateTimestamp[key+1] > vInfo.updateDate){
                         this.vData[0][key] += vInfo.tomatoNum;
-                        if(btodone){
+                        if(vInfo.tomatoNum > 0){
                             this.vData[1][key] += 1;
                         }
                         break;
@@ -73,14 +80,6 @@ export default {
                 };
             };
         },
-        // 使用 'tomato'/'item' 資料
-        checkDataType(){
-            if(this.chartType == 'tomato'){
-                this.iType = 0;
-            }else if(this.chartType == 'item'){
-                this.iType = 1;
-            }
-        }
     }
 }
 </script>
