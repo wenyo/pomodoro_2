@@ -8,26 +8,39 @@ export default {
         this.getVDate();
         this.calcCharts(this.vToDoList);
         this.calcCharts(this.vToDoneList);
+        this.getYAxesStep();
     },
     mounted () {
         this.renderChart({
         type: 'bar',
         labels: this.vDateText,
         datasets: [
+                {
+                    type: 'line',
+                    label: this.vType[1],
+                    data: this.vData[1],
+                    backgroundColor: '#056ec4',
+                },
+                {
+                    type: 'bar',
+                    label: this.vType[0],
+                    data: this.vData[0],
+                    backgroundColor: '#e20067',
+                }],
+            }, 
             {
-                type: 'line',
-                label: this.vType[1],
-                data: this.vData[1],
-                backgroundColor: '#e20067',
-            },
-            {
-                type: 'bar',
-                label: this.vType[0],
-                data: this.vData[0],
-                backgroundColor: '#056ec4',
+                responsive: true, 
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true,
+                            stepSize: this.iYAxesStep
+                        }
+                    }]
+                }
             }
-        ],
-        }, {responsive: true, maintainAspectRatio: false});
+        );
     },
     data(){
         return{
@@ -37,6 +50,7 @@ export default {
             iDays: 7,
             vType: ['tomatos', 'items'],
             vData: [[0,0,0,0,0,0,0], [0,0,0,0,0,0,0]],
+            iYAxesStep: 1,
             iType: -1
         }
     },
@@ -80,6 +94,11 @@ export default {
                 };
             };
         },
+        getYAxesStep(){
+            const vMerge = this.vData[0].concat(this.vData[1]);
+            const iMax = Math.max(...vMerge);
+            this.iYAxesStep = iMax > 10 ? this.iYAxesStep * (iMax / 10) : this.iYAxesStep;
+        }
     }
 }
 </script>
