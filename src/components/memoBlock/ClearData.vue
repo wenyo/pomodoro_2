@@ -53,16 +53,16 @@ export default {
         width: 100%;
         padding: 10px;
         text-align: center;
-        color: $color-master;
-        border: 2px solid $color-master;
+        color: $color-sec;
+        border: 2px solid $color-sec;
         border-radius: 10px;
         box-sizing: border-box;
-        box-shadow: 0 0 8px 2px $color-master inset;
+        box-shadow: 0 0 8px 2px $color-sec inset;
         transition: all .5s;
         @include pointer;
         &:hover{
             color: $color-thir;
-            box-shadow: 0 0 10px 5px $color-master inset;
+            box-shadow: 0 0 10px 5px $color-sec inset;
         }
     }
     .confirmAlert{
@@ -94,7 +94,7 @@ export default {
             @include pointer;
             transition: .3s;
             &:hover{
-                background-color: $color-master;
+                background-color: $color-sec;
             }
         }
     }
@@ -115,7 +115,7 @@ export default {
         transition: all .3s;
         @include pointer;
         &:hover{
-            color: $color-master;
+            color: $color-sec;
         }
     }
 </style>

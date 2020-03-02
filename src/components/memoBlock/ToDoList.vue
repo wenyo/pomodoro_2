@@ -5,7 +5,6 @@
             <li v-for = '(toDo, toDoIndex) in getShowTodo(vToDoList)' :key='toDoIndex'>
                 <span class="checkBox">
                     <i class="far fa-circle checkInput" @click ='checkToDo(toDoIndex)'></i>
-                    <!-- <i class="fas fa-check checkIcon"></i> -->
                 </span>
 
                 <span class="listItem">
@@ -188,6 +187,7 @@ export default {
         color: $color-master;
         font-size: $fontsize-m;
         transition: all .3s;
+        @include pointer;
         &:hover{
             text-shadow: 0 0 3px $color-four;
         }

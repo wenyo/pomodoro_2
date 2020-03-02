@@ -21,7 +21,7 @@
         </div>
 
         <div>
-            <div class="infoTitle">FOCUS LIST</div>
+            <div class="infoTitle">FOCUS ITEM</div>
             <div class="infoContent">                            
                 
                 <div class="todayTotal">

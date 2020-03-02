@@ -3,7 +3,8 @@
       <router-link :class='vMenuClass[0]' to="/"><i class="far fa-clock"></i></router-link>
       <router-link :class='vMenuClass[1]' to="list"><i class="far fa-list-alt"></i></router-link>
       <router-link :class='vMenuClass[2]' to="chart"><i class="fas fa-chart-bar"></i></router-link>
-      <router-link :class='vMenuClass[3]' to="bomb"><i class="fas fa-bomb"></i></router-link>
+      <router-link :class='vMenuClass[3]' to="ring"><i class="fas fa-music"></i></router-link>
+      <router-link :class='vMenuClass[4]' to="bomb"><i class="fas fa-bomb"></i></router-link>
     </nav>
 </template>
 

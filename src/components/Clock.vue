@@ -28,7 +28,9 @@
             </div>
             <div class="time" :class='changeDark(vToDo.bWork)' v-cloak>{{sCountTime}}</div>                            
         </div>
-
+        <audio ref="ring">
+            <source :src="vRing[iRing]" type="audio/mpeg">
+        </audio>
     </div>
 </template>
 
@@ -51,7 +53,7 @@ export default {
             vToDo: [],
             vClockClassName: ['tenMins','twentyMins','twenty3Mins'],
             // bWork: 0, // 工作狀態 = 0; 休息狀態 = 1,
-            timer: ''
+            timer: '',
         }
     },
     created() {
@@ -62,7 +64,7 @@ export default {
         }
     },
     computed:{
-      ...mapState(['iTodoNow', 'vToDoList', 'bPlayTimer'])
+      ...mapState(['iTodoNow', 'vToDoList', 'bPlayTimer', 'vRing', 'iRing'])
     },
     watch:{
         iTodoNow(){
@@ -111,7 +113,6 @@ export default {
                     if(iClass !== -1){
                         this.addInnerClockClass(iClass);
                     }
-
                     // 時間為 0
                     if(iTotalSeconds == 0){
                         this.changeWork();
@@ -129,6 +130,7 @@ export default {
         // 倒數結束 換到下一個階段
         changeWork(){
             clearInterval(this.timer);
+            this.playRing();
             if(this.vToDo['bWork'] == 0){
                 this.vToDo.tomatoNum += 1
             }
@@ -161,6 +163,11 @@ export default {
         // 加上暗黑模式的class
         changeDark(bWork){
             return bWork==1 ? 'dark' : '';
+        },
+        // 播放鈴聲
+        playRing(){
+            let ring = this.$refs.ring;
+            ring.play();
         }
     }
 }

@@ -1,17 +1,20 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import vRing from './ring'
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    vPath: ['/', '/list', '/chart', '/bomb'],
+    vPath: ['/', '/list', '/chart', '/ring', '/bomb'],
     vCountTimeList : [['25:00', '05:00'], ['00:10', '00:05']],
     vToDoList: [],
     vToDoneList: [],
     iTodoNow: 0,
     date: new Date().getFullYear() + '/' + (new Date().getMonth()+1) + '/' + new Date().getDate(),
     bPlayTimer: false, // false = 不倒數; true = 倒數;
+    vRing: vRing,
+    iRing: 0
   },
   mutations: {
     // 從 Loclstorage 拿資料
