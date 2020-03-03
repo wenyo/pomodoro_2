@@ -98,6 +98,10 @@ export default new Vuex.Store({
         return vTodo.sn !== iTodoSn;
       })
     },
+    // 變更鈴聲
+    changeRing(state, iNewRing){
+      state.iRing = iNewRing;
+    }
   },
   actions: {
     // 將 todo 給 todone

@@ -1,21 +1,60 @@
 <template>
     <div>
      <ul class='ringUl'>
-        <li>
+        <li v-for='(ring, idx) in vRing' :key='idx' @click.stop='chooseRing(idx)' :class='vRingClass[idx]'>
              <i class="fas fa-bell"></i>
-             <span>1</span>
-        </li>
-        <li>
-            <i class="fas fa-bell"></i>
-            <span>2</span>
-        </li>
-        <li>
-            <i class="fas fa-bell"></i>
-            <span>3</span>
+             <span>{{idx+1}}</span>
         </li>
      </ul>
+    <!-- <audio :src="sCurrentRing" ref="ringTest" muted>
+    </audio> -->
     </div>
 </template>
+
+<script>
+import { mapState, mapMutations } from 'vuex';
+
+export default {
+    data(){
+        return{
+            vRingClass:[],
+            sCurrentRing: '',
+            ringTest: ''
+        }
+    },
+    created(){
+        this.changeClass();
+    },
+    computed:{
+        ...mapState(['iRing', 'vRing']),
+    },
+    methods:{
+        ...mapMutations(['changeRing']),
+        // 切換鈴聲
+        chooseRing(idx){
+            this.changeRing(idx);
+            this.changeClass();
+            console.log(2222)
+            this.playRing();
+        },
+        // 播放鈴聲
+        playRing(){
+            if(this.ringTest !== ''){
+                this.ringTest.pause();
+                this.ringTest = '';
+            }
+            this.ringTest = new Audio(this.vRing[this.iRing]);
+            this.ringTest.play()
+        },
+        // 切換class
+        changeClass(){
+            this.vRingClass = [];
+            this.vRingClass[this.iRing] = 'active';
+            this.sCurrentRing = this.vRing[this.iRing];
+        }
+    }
+}
+</script>
 
 <style lang="scss">
     .ringUl{

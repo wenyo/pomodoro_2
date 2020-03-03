@@ -31,6 +31,14 @@
         <audio ref="ring">
             <source :src="vRing[iRing]" type="audio/mpeg">
         </audio>
+        <div class="confirmAlert giveUp" v-if='bShowComfirm'>
+            <p>真的要放棄嗎？時間將重新計時</p>
+            <div class="confirm" @click='bShowComfirm = false'>
+                <span @click='checkCount(); checkSCountTime()'>真ㄉ拉</span>
+                <span @click='countDownStart()'>先不要</span>
+            </div>    
+        </div>
+        <div class="back" v-if='bShowComfirm'></div>
     </div>
 </template>
 
@@ -52,8 +60,8 @@ export default {
             sCountTime: '',
             vToDo: [],
             vClockClassName: ['tenMins','twentyMins','twenty3Mins'],
-            // bWork: 0, // 工作狀態 = 0; 休息狀態 = 1,
             timer: '',
+            bShowComfirm: false
         }
     },
     created() {
@@ -79,9 +87,6 @@ export default {
                 this.checkSCountTime();
             }
         },
-        // bWork(){
-        //     this.checkSCountTime();
-        // }
     },
     methods:{
         ...mapActions(['updateToDo']),
@@ -97,8 +102,7 @@ export default {
             let secondsAry = this.sCountTime.split(":");
             let iTotalSeconds = parseInt(secondsAry[0]) * 60 + parseInt(secondsAry[1]);
             if(this.iTodoNow == 0 || iTotalSeconds == 0){return;}
-
-            this.checkCount();
+            if(!this.bPlayTimer){ this.checkCount(); }
             if(iTotalSeconds > 0){
                 this.timer = window.setInterval(function(){
                     iTotalSeconds--;
@@ -123,13 +127,19 @@ export default {
             }
         },
         // 停止倒數鍵
+        // 需確認是否真的要停止, 停止後時間要歸零 
         countDownpause(){
-            this.checkCount();
-            clearInterval(this.timer);
+            let secondsAry = this.sCountTime.split(":");
+            let iTotalSeconds = parseInt(secondsAry[0]) * 60 + parseInt(secondsAry[1]);
+            if(iTotalSeconds > 0){
+                clearInterval(this.timer);
+                this.bShowComfirm = true;
+            }
         },
         // 倒數結束 換到下一個階段
         changeWork(){
             clearInterval(this.timer);
+            this.checkCount();
             this.playRing();
             if(this.vToDo['bWork'] == 0){
                 this.vToDo.tomatoNum += 1

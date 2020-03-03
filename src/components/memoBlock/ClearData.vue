@@ -106,6 +106,7 @@ export default {
         right: 0;
         background: $color-sev;
         opacity: .6;
+        z-index: 3;
     }
     .close{
         position: absolute;
