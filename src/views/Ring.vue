@@ -34,7 +34,6 @@ export default {
         chooseRing(idx){
             this.changeRing(idx);
             this.changeClass();
-            console.log(2222)
             this.playRing();
         },
         // 播放鈴聲
