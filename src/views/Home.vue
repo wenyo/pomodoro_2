@@ -17,7 +17,8 @@ export default {
     return{
       type: 0,
       sHomeClass: '',
-      sMemoClass: ''
+      sMemoClass: '',
+      hideMsg: '',
     };
   },
   created(){
@@ -56,6 +57,10 @@ export default {
     display: flex;
     padding: 3vh 2.5vw;
     justify-content: flex-start;
+    @include pc768{
+      padding: 6vh 2.5vw;
+      flex-direction: column-reverse;
+    }
   }
   .center{
     justify-content: center;

@@ -50,3 +50,15 @@ $letter-spc-s: 1px;
 @mixin clearfloat {
     clear: both;
 }
+
+@mixin pc960{
+    @media (max-width:960px){
+        @content
+    }
+};
+
+@mixin pc768{
+    @media (max-width:768px){
+        @content
+    }
+};

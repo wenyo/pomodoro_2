@@ -6,7 +6,7 @@
                 <i class="fas fa-check checkIcon" :class='changeDark(this.vToDo.bWork)'></i>
             </span>
 
-            <span class="listItem">
+            <span class="listItem sTodoNow">
                 <span :class=" bReset ? 'grayColor' : '' " v-cloak>{{sReadyitem}}</span>
                 <div class="line" :class='changeDark(this.vToDo.bWork)'></div>
                 <div class="tomato" :class='changeDark(this.vToDo.bWork)' v-if='iTodoNow > -1'>
@@ -214,16 +214,25 @@ export default {
     .grayColor{
         color: $color-five;
     }
+    .sTodoNow{
+        @include pc768{
+            width: 70%;
+        }
+    }
 
-// 倒數時鐘部分
-.countDownBlock{
-    width: 65%;
-    transition: 2s;
-    margin-left: 5vw;
-}
-.moveToCenter{
-    right: 10%
-}
+    // 倒數時鐘部分
+    .countDownBlock{
+        width: 65%;
+        transition: 2s;
+        margin-left: 5vw;
+        @include pc768{
+            width: 100%;
+            margin-left: 0;
+        }
+    }
+    .moveToCenter{
+        right: 10%
+    }
     // 被選擇的待辦事項
     .selToDoList{
         display: flex;
@@ -269,6 +278,10 @@ export default {
         height: 550px;
         width: 550px;
         position: relative;
+        @include pc768{
+            margin-left: 0; 
+            margin: 20px auto 0 auto;
+        }
         .playbtn{
             color: $color-six;
             font-size: $fontsize-m;

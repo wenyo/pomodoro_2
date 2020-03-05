@@ -97,7 +97,7 @@ export default {
         getYAxesStep(){
             const vMerge = this.vData[0].concat(this.vData[1]);
             const iMax = Math.max(...vMerge);
-            this.iYAxesStep = iMax > 10 ? this.iYAxesStep * (iMax / 10) : this.iYAxesStep;
+            this.iYAxesStep = iMax > 10 ? this.iYAxesStep * Math.ceil(iMax / 10) : this.iYAxesStep;
         }
     }
 }
