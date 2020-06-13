@@ -34,11 +34,13 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
   }
 
   .memoDetail{
-    width: 45%;
-    margin: 30px 20px;
+    width: 40%;
+    min-width: 400px;
+    margin: 3% 2%;
     &>.memoBlock{
       min-height: 65vh;
       margin-top: 0;     

@@ -56,7 +56,10 @@ export default {
   .home{
     display: flex;
     padding: 3vh 2.5vw;
-    justify-content: flex-start;
+    justify-content: center;
+    height: 100vh;
+    box-sizing: border-box;
+    align-items: center;
     @include pc768{
       padding: 6vh 2.5vw;
       flex-direction: column-reverse;

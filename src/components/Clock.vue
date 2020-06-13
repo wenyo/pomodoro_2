@@ -1,11 +1,6 @@
 <template>
     <div class="countDownBlock">
         <div class="selToDoList" :class='changeDark(this.vToDo.bWork)'>
-            <span class="checkBox">
-                <div class="checkInput" :class='changeDark(this.vToDo.bWork)'></div>
-                <i class="fas fa-check checkIcon" :class='changeDark(this.vToDo.bWork)'></i>
-            </span>
-
             <span class="listItem sTodoNow">
                 <span :class=" bReset ? 'grayColor' : '' " v-cloak>{{sReadyitem}}</span>
                 <div class="line" :class='changeDark(this.vToDo.bWork)'></div>
@@ -61,7 +56,8 @@ export default {
             vToDo: [],
             vClockClassName: ['tenMins','twentyMins','twenty3Mins'],
             timer: '',
-            bShowComfirm: false
+            bShowComfirm: false,
+            bChecked: false,
         }
     },
     created() {
@@ -96,6 +92,7 @@ export default {
             this.bReset = true;
             this.sReadyitem = this.sReadyitemPreset;
             this.sCountTime = this.sCountTimePreset;
+            this.vToDo = [];
         },
         // 開始倒數鍵
         countDownStart(){
@@ -222,7 +219,8 @@ export default {
 
     // 倒數時鐘部分
     .countDownBlock{
-        width: 65%;
+        min-width: 700px;
+        width: 45%;
         transition: 2s;
         margin-left: 5vw;
         @include pc768{

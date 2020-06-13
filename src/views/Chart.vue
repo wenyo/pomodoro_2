@@ -131,13 +131,14 @@ export default {
 
 <style lang="scss">
   #chart7Days{
-    height: 650px;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     &>div{
-        width: 400px;
-        margin: 0 20px;
+        width: 45%;
+        max-width: 550px;
+        margin: 0 3%;
     }
   }
   .infoTitle{
@@ -158,7 +159,7 @@ export default {
     &>div{
         position: relative;
         display: inline-block;
-        width: 160px;
+        width: 50%;
     }
   }
   .smallWord{
@@ -178,7 +179,7 @@ export default {
   }
 
   .chartDetail{
-    width: 400px;
+    width: 100%;
     height: 300px;
   }
 </style>
