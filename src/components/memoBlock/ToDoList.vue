@@ -4,7 +4,7 @@
         <ul v-if='vToDoList.length > 0'>
             <li v-for = '(toDo, toDoIndex) in getShowTodo(vToDoList)' :key='toDoIndex'>
                 <span class="checkBox">
-                    <i class="far fa-circle checkInput" @click ='checkToDo(toDoIndex)'></i>
+                    <i class="far fa-circle checkInput" @click ='checkToDo(iPrePage+toDoIndex)'></i>
                 </span>
 
                 <span class="listItem">
@@ -46,7 +46,7 @@ export default {
         return{
             textInput: '',
             iMaxShowNum: 0,
-            iPrePage: 0,
+            iPrePage: 0, // 上一頁最後一項idx
             iPage: 4,
             vPage: [4, 6],
             bWork: -1
